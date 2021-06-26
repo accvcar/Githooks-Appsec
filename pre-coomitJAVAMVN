@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Check if this is the initial commit
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=$(git hash-object -t tree /dev/null)
+fi
+#Altere a linha abaixo para o compilador utilizado ex: maven, gradle e etc
+mvn compile package
+#
+curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
+unzip -n pipeline-scan-LATEST.zip
+#Alterar o parametro --file com caminho de destino do artefato gerado na compilação.
+java -jar pipeline-scan.jar --veracode_api_id $vid --veracode_api_key $vkey --file $PWD/target/*.war --issue_details true --policy_name="Veracode Recommended High"
+retVal=$?
+
+if [ $retVal -ne 0 ]; then
+    
+	rm pipeline-scan-LATEST.zip
+	rm pipeline-scan.jar
+	exit 1
+fi
+
+rm pipeline-scan-LATEST.zip
+rm pipeline-scan.jar
+exit $retValgit 
+
+
