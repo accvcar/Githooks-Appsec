@@ -12,7 +12,7 @@ fi
 zip -r upload.zip .
 curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
 unzip pipeline-scan-LATEST.zip
-java -jar pipeline-scan.jar --veracode_api_id $vid --veracode_api_key $vkey --file upload.zip --issue_details true --policy_name="Veracode Recommended Low"
+java -jar pipeline-scan.jar --file upload.zip --issue_details true --policy_name="Veracode Recommended Low"
 retVal=$?
 if [ $retVal -ne 0 ]; then
     rm upload.zip
