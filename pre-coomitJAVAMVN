@@ -14,7 +14,7 @@ mvn compile package
 curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
 unzip -n pipeline-scan-LATEST.zip
 #Alterar o parametro --file com caminho de destino do artefato gerado na compilação.
-java -jar pipeline-scan.jar --veracode_api_id $vid --veracode_api_key $vkey --file $PWD/target/*.war --issue_details true --policy_name="Veracode Recommended High"
+java -jar pipeline-scan.jar --file $PWD/target/*.war --issue_details true --policy_name="Veracode Recommended High"
 retVal=$?
 
 if [ $retVal -ne 0 ]; then
